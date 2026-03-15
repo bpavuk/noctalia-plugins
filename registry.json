@@ -498,7 +498,7 @@
     {
       "id": "mpd",
       "name": "MPD",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "official": false,
       "author": "Ido Perlmuter",
       "description": "MPD plugin for Noctalia",
@@ -510,7 +510,7 @@
         "Audio",
         "Music"
       ],
-      "lastUpdated": "2026-03-05T15:15:04+02:00"
+      "lastUpdated": "2026-03-15T22:15:58+10:00"
     },
     {
       "id": "mpris-lyric",
