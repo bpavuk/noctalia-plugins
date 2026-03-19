@@ -1071,6 +1071,24 @@
       "lastUpdated": "2026-03-15T14:47:53+01:00"
     },
     {
+      "id": "valent-connect",
+      "name": "Valent Connect",
+      "version": "1.1.0",
+      "official": false,
+      "author": "Suyash",
+      "description": "A plugin integrating your mobile devices into a panel using Valent",
+      "repository": "https://github.com/noctalia-dev/noctalia-plugins",
+      "minNoctaliaVersion": "4.6.7",
+      "license": "MIT",
+      "tags": [
+        "Bar",
+        "Panel",
+        "Utility",
+        "System"
+      ],
+      "lastUpdated": "2026-03-19T04:00:40+05:30"
+    },
+    {
       "id": "video-wallpaper",
       "name": "Video Wallpaper",
       "version": "2.0.4",
