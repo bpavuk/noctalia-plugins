@@ -6,6 +6,7 @@ Integrate your mobile devices via the Valent backend. This plugin provides a sea
 
 - **🚀 Reliable Refresh**: Improved device discovery logic to ensure a single tap correctly updates the device list and status.
 - **🎨 Improved Animation**: Stabilized the header layout and implemented a smoother, more reliable refresh animation.
+- **⚖️ License & Attribution**: Properly relicensed under **GPLv2** and added formal credit to the original KDE Connect plugin author, **WerWolv**.
 
 ## Requirements
 
@@ -86,5 +87,10 @@ spawn-at-startup "valent" "--gapplication-service"
     - Manually test mounting: `gio mount sftp://PHONE_IP:1739/`.
 - **Logs**: Check Valent logs for errors: `journalctl --user -u valent -f`.
 
+## Credits 💖
+
+This plugin is heavily based on the excellent [KDE Connect](https://github.com/WerWolv/noctalia-kde-connect) plugin created by **WerWolv**. 
+
+A huge thank you to **WerWolv** for their incredible work on the original implementation, on which this plugin is heavily based on.
 ---
-*Note: This plugin is designed specifically for the Valent backend and does not require or use the `kdeconnectd` daemon.*
+*Note: This plugin is licensed under the **GNU General Public License v2.0**. It is designed specifically for the Valent backend and does not require or use the `kdeconnectd` daemon.*
