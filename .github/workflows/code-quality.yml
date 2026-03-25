@@ -1,41 +1,48 @@
 name: Automatic Code Quality Review
 on:
-  pull_request_target:
-    types: [opened, synchronize, reopened]
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - "**.qml"
 permissions:
   contents: read
   pull-requests: write
-  issues: write
 jobs:
   code-quality:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-      issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          # Checkout the latest head, we don't care about merges
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Automatic Code Quality
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          REPO: ${{ github.repository }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
         run: |
+          # Fetch the target branch of this pull request
+          git fetch origin "$BASE_REF"
+
           # Get all the qml file changes
-          diff_changes=$(git diff origin/main...HEAD |
+          diff_changes=$(git diff origin/$BASE_REF...HEAD |
             awk '/^diff --git.*\.qml /{found=1} /^diff --git/{if(!/\.qml /) found=0} found{print}' |
-            grep -v "^(index|\+\+\+|-)") || (
-            echo "Failed to get the diff changes from $PR_NUMBER, most probably no diff with qml files found!"
-            exit 0
-          )
+            grep -vE "^(index|\+\+\+|-)") || echo "No qml file changed"
 
           if [ -z "$diff_changes" ] || [ "$diff_changes" = "" ]; then
             echo "No diff changes found!"
+            echo "The base ref checking: $BASE_REF"
+            echo "The head ref checking: $HEAD_REF"
             exit 0
           fi
 
@@ -65,17 +72,15 @@ jobs:
           while IFS= read -r line; do
             if echo "$line" | grep -E "^diff --git" >/dev/null; then
               # We have come to the starting line for a file
-              file_title="$(echo "$line" | sed 's/diff --git a\/\(.*\.qml\) .*/\1/g' || (
-                echo "Failed to get file title! Line: $line"
-                exit 1
-              ))"
+              file_title=$(echo "$line" | sed 's/diff --git a\/\(.*\.qml\) .*/\1/g') || echo "Failed to get the file title! Line: $line"
               comment_body+=$(printf -- '\n## File: %s' "$file_title")
+
+              echo "Checking file: $file_title"
             elif echo "$line" | grep -E "^@@" >/dev/null; then
               # We have come to a hunk header describing which lines we are looking at, update the current line_index
-              line_index=$(echo "$line" | grep -oE "\+[0-9]+" | grep -oE "[0-9]+") || (
-                echo "Failed to get line_index! Line: $line"
-                exit 1
-              )
+              line_index=$(echo "$line" | grep -oE "\+[0-9]+" | grep -oE "[0-9]+") || echo "Failed to get line_index! Line: $line"
+
+              echo "Current line index reset: $line_index"
             else
               # Check for usual hard-coded values
               if echo "$line" | grep -E "(border(\.width)*|spacing|pointSize|radius|margin(s)*): [0-9]+" >/dev/null; then
@@ -90,7 +95,7 @@ jobs:
               fi
 
               # Check for non-noctalia widget usage
-              if echo "$line" | grep -E "^( )+(Text|Button|Checkbox|Switch)" >/dev/null; then
+              if echo "$line" | grep -E "^(Text|Button|Checkbox|Switch) *\{" >/dev/null; then
                 comment_body+=$(print_line "$h_priority" "$line_index" 'Always prefer to use noctalia-widgets instead of qml widgets to keep it consistent with the shell. For example instead of `Text`, use `NText`' "$line")
                 issues=$((issues + 1))
               fi
@@ -102,7 +107,7 @@ jobs:
               fi
 
               # Check for translation fallbacks that aren't needed anymore
-              if echo "$line" | grep -E "pluginApi(\?)+\.tr\((.)*\) *(\?\?|\|\|)" >/dev/null; then
+              if echo "$line" | grep -E "pluginApi\??\.tr\((.)*\) *(\?\?|\|\|)" >/dev/null; then
                 comment_body+=$(print_line "$l_priority" "$line_index" 'When it comes to translations there is no need for fallback values. From: `pluginApi?.tr("example") || "value"`. To: `pluginApi?.tr("example")`' "$line")
                 issues=$((issues + 1))
               fi
