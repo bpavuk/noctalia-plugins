@@ -5,7 +5,7 @@ on:
       - main
     paths:
       - '**/manifest.json'
-      - '.github/workflows/update-registry.js'
+      - '.github/workflows/update-registry.mjs'
   workflow_dispatch:
 
 jobs:
