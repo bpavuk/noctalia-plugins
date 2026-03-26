@@ -446,6 +446,10 @@
         "balanced": "Balanced",
         "roomy": "Roomy"
       },
+      "header": {
+        "label": "Show panel header",
+        "desc": "Show the title row with launcher, settings, and close actions at the top of the panel."
+      },
       "nowPlaying": {
         "label": "Show now-playing block",
         "desc": "Show the playback controls and current track block at the top of the panel."

@@ -45,6 +45,7 @@
       "defaultPanelTab": "search",
       "defaultPanelLibrarySection": "tracks",
       "panelDensity": "balanced",
+      "showPanelHeader": true,
       "showPanelNowPlaying": true,
       "showPanelPlaybackProgress": true,
       "showPanelProviderChips": true,

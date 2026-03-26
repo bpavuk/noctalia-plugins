@@ -58,6 +58,9 @@ Item {
     }
     return "balanced";
   }
+  readonly property bool showPanelHeader: pluginApi?.pluginSettings?.showPanelHeader
+      ?? defaults.showPanelHeader
+      ?? true
   readonly property real panelSectionSpacing: panelDensity === "compact"
       ? Style.marginS
       : (panelDensity === "roomy" ? Style.marginL : Style.marginM)
@@ -1144,11 +1147,19 @@ Item {
         spacing: root.panelCardSpacing
 
         NButton {
-          text: root.pluginApi?.tr("panel.playAction")
-          icon: "player-play-filled"
+          text: current
+              ? (root.mainInstance?.isPaused === true
+                  ? root.pluginApi?.tr("panel.resume")
+                  : root.pluginApi?.tr("panel.pause"))
+              : root.pluginApi?.tr("panel.playAction")
+          icon: current
+              ? (root.mainInstance?.isPaused === true ? "player-play-filled" : "player-pause-filled")
+              : "player-play-filled"
           fontSize: root.panelButtonSize
           onClicked: {
-            if (section === "queue") {
+            if (current) {
+              root.mainInstance?.togglePause();
+            } else if (section === "queue") {
               root.mainInstance?.playQueueEntryNow(normalized);
             } else {
               root.mainInstance?.playEntry(normalized);
@@ -1318,7 +1329,7 @@ Item {
       spacing: root.panelSectionSpacing
 
       Rectangle {
-        visible: root.showPanelNowPlaying
+        visible: root.showPanelHeader
         Layout.fillWidth: true
         radius: Style.radiusL
         color: Color.mSurfaceVariant
@@ -1381,6 +1392,7 @@ Item {
       }
 
       Rectangle {
+        visible: root.showPanelNowPlaying
         Layout.fillWidth: true
         radius: Style.radiusL
         color: Color.mSurfaceVariant
@@ -2461,6 +2473,7 @@ Item {
                   currentItem: root.panelPreviewItem
                   showChips: false
                   showLengthDetails: false
+                  showPlaybackProgress: !(root.showPanelNowPlaying && root.showPanelPlaybackProgress)
                   showInlineSpeedControls: false
                 }
               }

@@ -19,6 +19,7 @@ Item {
   property bool descriptionExpanded: false
   property bool showChips: true
   property bool showLengthDetails: true
+  property bool showPlaybackProgress: true
   property bool showInlineSpeedControls: true
   property real livePosition: 0
   property bool seekDragging: false
@@ -403,12 +404,15 @@ Item {
     }
   }
 
-  ScrollView {
+  NScrollView {
     id: contentArea
     anchors.fill: parent
     anchors.margins: Style.marginS
     clip: true
-    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+    horizontalPolicy: ScrollBar.AlwaysOff
+    verticalPolicy: ScrollBar.AsNeeded
+    reserveScrollbarSpace: false
+    gradientColor: Color.mSurfaceVariant
 
     Item {
       id: previewContent
@@ -589,7 +593,7 @@ Item {
         id: progressWrapper
         Layout.fillWidth: true
         Layout.preferredHeight: progressSlider.implicitHeight + progressTimes.implicitHeight + Style.marginXS
-        visible: currentItem?.isPlaying === true && effectiveDuration() > 0
+        visible: previewPanel.showPlaybackProgress && currentItem?.isPlaying === true && effectiveDuration() > 0
         property real localSeekRatio: -1
         property real lastSentSeekRatio: -1
         property real seekEpsilon: 0.01
@@ -852,10 +856,10 @@ Item {
         visible: isItemStartingNow(currentItem)
         spacing: Style.marginXS
 
-        BusyIndicator {
+        NBusyIndicator {
           running: true
-          width: Style.baseWidgetSize * 0.75
-          height: width
+          size: Math.round(Style.baseWidgetSize * 0.75)
+          color: Color.mPrimary
         }
 
         NText {
@@ -871,10 +875,10 @@ Item {
         Layout.fillWidth: true
         visible: loadingDetails
 
-        BusyIndicator {
+        NBusyIndicator {
           running: true
-          width: Style.baseWidgetSize * 0.75
-          height: width
+          size: Math.round(Style.baseWidgetSize * 0.75)
+          color: Color.mPrimary
         }
 
         NText {

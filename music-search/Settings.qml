@@ -70,6 +70,9 @@ ColumnLayout {
   readonly property string panelDensity: pluginApi?.pluginSettings?.panelDensity
       ?? root.defaults.panelDensity
       ?? "balanced"
+  readonly property bool showPanelHeader: pluginApi?.pluginSettings?.showPanelHeader
+      ?? root.defaults.showPanelHeader
+      ?? true
   readonly property bool showPanelNowPlaying: pluginApi?.pluginSettings?.showPanelNowPlaying
       ?? root.defaults.showPanelNowPlaying
       ?? true
@@ -353,6 +356,14 @@ ColumnLayout {
     currentKey: root.panelDensity
     defaultValue: root.defaults.panelDensity ?? "balanced"
     onSelected: key => root.saveSetting("panelDensity", key)
+  }
+
+  NToggle {
+    label: pluginApi?.tr("settings.panel.header.label")
+    description: pluginApi?.tr("settings.panel.header.desc")
+    checked: root.showPanelHeader
+    onToggled: root.saveSetting("showPanelHeader", checked)
+    defaultValue: root.defaults.showPanelHeader ?? true
   }
 
   NToggle {
