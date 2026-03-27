@@ -513,6 +513,24 @@
       "lastUpdated": "2026-01-26T23:59:29-05:00"
     },
     {
+      "id": "mirror-mirror",
+      "name": "Mirror Mirror",
+      "version": "0.1.0",
+      "official": false,
+      "author": "Mathew-D",
+      "description": "Mirror one monitor to another using wl-mirror.",
+      "repository": "https://github.com/noctalia-dev/noctalia-plugins",
+      "minNoctaliaVersion": "3.6.0",
+      "license": "MIT",
+      "tags": [
+        "Bar",
+        "Panel",
+        "Utility",
+        "System"
+      ],
+      "lastUpdated": "2026-03-25T20:32:27-04:00"
+    },
+    {
       "id": "model-usage",
       "name": "Model Usage",
       "version": "0.2.0",
