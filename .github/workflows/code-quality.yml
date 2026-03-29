@@ -61,7 +61,7 @@ jobs:
           function check_file_title() {
             if [ "$title_added" = false ]; then
               title_added=true
-              comment_body+=file_title
+              comment_body+="$file_title"
             fi
           }
 
