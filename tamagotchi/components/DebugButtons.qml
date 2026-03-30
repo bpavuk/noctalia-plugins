@@ -5,7 +5,7 @@ import ".." as Tamagotchi
 
 Row {
     id: root
-    spacing: 10
+    spacing: Style.spacingM
 
     component ActionBtn: Rectangle {
         id: btn
@@ -37,7 +37,7 @@ Row {
 
         Column {
             anchors.centerIn: parent
-            spacing: 4
+            spacing: Style.spacingS
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text:           btn.icon
