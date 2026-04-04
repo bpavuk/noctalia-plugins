@@ -31,7 +31,8 @@ Item {
     readonly property int    showHostName:   mainInstance?.showHostName     ?? true
 
     readonly property string displayText: {
-        if (!displayHost)                return "—"
+        if (!displayHost) return "—"
+        if (displayHost.timedOut) return displayHost.name
         const a = displayHost.avg10m >= 0 ? displayHost.avg10m
                 : displayHost.lastRtt >= 0 ? displayHost.lastRtt : -1
         if (a < 0) return showHostName ? displayHost.name : "..."
