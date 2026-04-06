@@ -9,11 +9,10 @@ Row {
     property var pluginApi: null
     opacity: (pluginApi?.pluginSettings?.showDebug ?? false) ? 1.0 : 0.0
 
-
     component ActionBtn: Rectangle {
         id: btn
         property string icon:    "●"
-        property string label:   "Acción"
+				property string label: pluginApi?.tr("debug.action")
         property var    action
 				property bool   enabled: true
 
@@ -71,25 +70,25 @@ Row {
 
     ActionBtn {
         icon:   "🍗"
-        label:  "-10 Comer"
+				label: pluginApi?.tr("debug.feed")
         action: function() { if(pluginApi.mainInstance) pluginApi.mainInstance.feed(-10) }
     }
 
     ActionBtn {
         icon:   "🎮"
-        label:  "-10 Jugar"
+				label: pluginApi?.tr("debug.play")
         action: function() { if(pluginApi.mainInstance) pluginApi.mainInstance.happiness += -10 }
     }
 
     ActionBtn {
         icon:   "🧼"
-        label:  "-10 Limpieza"
+				label: pluginApi?.tr("debug.clean")
         action: function() { if(pluginApi.mainInstance) pluginApi.mainInstance.clean(-10) }
     }
 
     ActionBtn {
         icon:   pluginApi?.mainInstance?.petState === "sleeping" ? "☀️" : "💤"
-        label:  "-10 Dormir"
+				label: pluginApi?.tr("debug.sleep")
         action: function() { if(pluginApi.mainInstance) pluginApi.mainInstance.energy += -10 }
     }
 }

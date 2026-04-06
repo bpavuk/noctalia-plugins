@@ -23,8 +23,8 @@ ColumnLayout {
     }
 
     NLabel {
-        label: "Volume"
-        description: "Sound effects volume for feeding, playing and cleaning."
+				label: pluginApi?.tr("settings.volume")
+				description: pluginApi?.tr("settings.volume-desc")
 		}
 
     NSlider {
@@ -42,8 +42,8 @@ ColumnLayout {
 		}
 
     NLabel {
-        label: "Difficulty"
-				description: "Higher values make your pet require more frequent care."
+				label: pluginApi?.tr("settings.difficulty")
+				description: pluginApi?.tr("settings.difficulty-desc")
 		}
 
     NSlider {
@@ -62,8 +62,8 @@ ColumnLayout {
 
     NToggle {
         Layout.fillWidth: true
-        label: "Debug Buttons"
-        description: "Show buttons to manually trigger stat changes for testing."
+				label: pluginApi?.tr("settings.debug")
+				description: pluginApi?.tr("settings.debug-desc")
         checked: root.editShowDebug
         onToggled: checked => root.editShowDebug = checked
     }
@@ -76,8 +76,8 @@ ColumnLayout {
 
 		NToggle {
 				Layout.fillWidth: true
-				label: "Percentage"
-				description: "Show percentage values next to each stat bar."
+				label: pluginApi?.tr("settings.percentage")
+				description: pluginApi?.tr("settings.percentage-desc")
 				checked: root.showPercentage ?? false
 				onToggled: checked => root.showPercentage = checked
 		}
