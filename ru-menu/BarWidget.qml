@@ -21,6 +21,7 @@ Item {
     property int sectionWidgetIndex: -1
     property int sectionWidgetsCount: 0
 
+    readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screen?.name)
     readonly property real contentWidth: row.implicitWidth + Style.marginM * 2
     readonly property real contentHeight: capsuleHeight
 
@@ -65,7 +66,7 @@ Item {
         }
 
         onEntered: {
-            TooltipService.show(root, "This week's menu", BarService.getTooltipDirection());
+            TooltipService.show(root, pluginApi?.tr("widget.tooltip"), BarService.getTooltipDirection());
         }
 
         onExited: {

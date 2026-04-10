@@ -14,7 +14,10 @@ Item {
     }
 
     function getWeekFormat(d) {
-        return "Week of " + d.getUTCDate().toString().padStart(2, '0') + "/" + (d.getUTCMonth() + 1).toString().padStart(2, '0') + "/" + d.getUTCFullYear();
+        const date = d.getUTCDate().toString().padStart(2, '0') + "/" + (d.getUTCMonth() + 1).toString().padStart(2, '0') + "/" + d.getUTCFullYear();
+        return pluginApi?.tr("panel.week-format", {
+            date: date
+        });
     }
 
     function getMenuUrl(d) {
@@ -147,7 +150,7 @@ Item {
                     color: "transparent"
 
                     NText {
-                        text: "Failed to load menu"
+                        text: pluginApi?.tr("panel.error.no-menu")
                         anchors.centerIn: parent
                     }
                 }
