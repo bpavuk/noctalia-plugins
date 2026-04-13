@@ -1205,7 +1205,7 @@
     {
       "id": "show-keys",
       "name": "Show Keys",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "official": false,
       "author": "onez3r0",
       "description": "Floating OSD that displays keyboard input in real-time via evtest.",
@@ -1216,7 +1216,7 @@
         "Indicator",
         "System"
       ],
-      "lastUpdated": "2026-03-15T15:10:45+08:00"
+      "lastUpdated": "2026-04-09T18:01:49+02:00"
     },
     {
       "id": "simple-notes",
