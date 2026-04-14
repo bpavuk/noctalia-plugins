@@ -49,7 +49,7 @@ Item {
                 }
 
                 NText {
-                    text: root.view === "list" ? "Home Assistant" : "Add Entities"
+                    text: root.view === "list" ? (pluginApi?.tr("panel.title") ?? "Home Assistant") : (pluginApi?.tr("panel.title_add") ?? "Add Entities")
                     pointSize: Style.fontSizeL
                     font.weight: Font.Bold
                     color: Color.mOnSurface
@@ -62,9 +62,11 @@ Item {
                     height: 8
                     radius: 4
                     color: {
-                        if (!root.main?.connected) return Color.mError
-                        if (!root.main?.authenticated) return Color.mOnError
-                        return Color.mPrimary
+                        if (!root.main?.connected)
+                            return Color.mError;
+                        if (!root.main?.authenticated)
+                            return Color.mOnError;
+                        return Color.mPrimary;
                     }
                 }
 
@@ -73,8 +75,8 @@ Item {
                     icon: "plus"
                     visible: root.view === "list"
                     onClicked: {
-                        browserView.load()
-                        root.view = "browser"
+                        browserView.load();
+                        root.view = "browser";
                     }
                 }
             }
@@ -100,14 +102,14 @@ Item {
 
                         NText {
                             Layout.alignment: Qt.AlignHCenter
-                            text: "Connection Failed"
+                            text: pluginApi?.tr("panel.error_connection_failed") ?? "Connection Failed"
                             color: Color.mOnSurfaceVariant
                             pointSize: Style.fontSizeM
                         }
 
                         NButton {
                             Layout.alignment: Qt.AlignHCenter
-                            text: "Try Reconnect"
+                            text: pluginApi?.tr("panel.btn_reconnect") ?? "Try Reconnect"
                             onClicked: root.main.reconnect()
                         }
                     }
@@ -118,14 +120,14 @@ Item {
 
                         NText {
                             Layout.alignment: Qt.AlignHCenter
-                            text: root.main?.haToken === "" ? "Token Missing" : "Authentication Failed"
+                            text: root.main?.haToken === "" ? (pluginApi?.tr("panel.error_token_missing") ?? "Token Missing") : (pluginApi?.tr("panel.error_auth_failed") ?? "Authentication Failed")
                             color: Color.mSecondary // Replaced mWarning
                             pointSize: Style.fontSizeM
                         }
 
                         NButton {
                             Layout.alignment: Qt.AlignHCenter
-                            text: "Retry Auth"
+                            text: pluginApi?.tr("panel.btn_retry_auth") ?? "Retry Auth"
                             onClicked: root.main.reconnect()
                         }
                     }
@@ -136,17 +138,17 @@ Item {
 
                         NText {
                             Layout.alignment: Qt.AlignHCenter
-                            text: "No entities pinned"
+                            text: pluginApi?.tr("panel.empty_no_entities") ?? "No entities pinned"
                             color: Color.mOnSurfaceVariant
                             pointSize: Style.fontSizeM
                         }
 
                         NButton {
                             Layout.alignment: Qt.AlignHCenter
-                            text: "Add entities"
+                            text: pluginApi?.tr("panel.btn_add_entities") ?? "Add entities"
                             onClicked: {
-                                browserView.load()
-                                root.view = "browser"
+                                browserView.load();
+                                root.view = "browser";
                             }
                         }
                     }
@@ -163,9 +165,7 @@ Item {
                     delegate: Rectangle {
                         id: entityDelegate
                         width: ListView.view.width
-                        height: entityDelegate.isExpanded
-                                ? 64 + (showBrightness ? 56 : 0) + (showColorTemp ? 56 : 0)
-                                : 64
+                        height: entityDelegate.isExpanded ? 64 + (showBrightness ? 56 : 0) + (showColorTemp ? 56 : 0) : 64
                         color: Color.mSurfaceVariant
                         radius: Style.radiusM
                         clip: true
@@ -173,15 +173,15 @@ Item {
                         property bool isWaiting: false
                         property bool isExpanded: false
 
-                        readonly property bool canExpand: isLight(model.domain)
-                            && (model.supports_brightness || model.supports_color_temp)
+                        readonly property bool canExpand: isLight(model.domain) && (model.supports_brightness || model.supports_color_temp)
 
                         readonly property bool showBrightness: isExpanded && model.supports_brightness
                         readonly property bool showColorTemp: isExpanded && model.supports_color_temp
 
                         Behavior on height {
                             NumberAnimation {
-                                duration: 200; easing.type: Easing.InOutQuad
+                                duration: 200
+                                easing.type: Easing.InOutQuad
                             }
                         }
 
@@ -190,14 +190,15 @@ Item {
 
                             function onEntityUpdated(updatedId) {
                                 if (updatedId === model.entity_id) {
-                                    entityDelegate.isWaiting = false
+                                    entityDelegate.isWaiting = false;
                                 }
                             }
                         }
 
                         ColumnLayout {
                             anchors {
-                                fill: parent; margins: Style.marginM
+                                fill: parent
+                                margins: Style.marginM
                             }
                             spacing: Style.marginS
 
@@ -214,10 +215,14 @@ Item {
                                         running: entityDelegate.isWaiting
                                         loops: Animation.Infinite
                                         NumberAnimation {
-                                            to: 0.4; duration: 400; easing.type: Easing.InOutQuad
+                                            to: 0.4
+                                            duration: 400
+                                            easing.type: Easing.InOutQuad
                                         }
                                         NumberAnimation {
-                                            to: 1.0; duration: 400; easing.type: Easing.InOutQuad
+                                            to: 1.0
+                                            duration: 400
+                                            easing.type: Easing.InOutQuad
                                         }
                                     }
                                     opacity: entityDelegate.isWaiting ? opacity : 1.0
@@ -237,13 +242,15 @@ Item {
 
                                     NText {
                                         text: {
-                                            if (entityDelegate.isWaiting) return "Updating..."
+                                            if (entityDelegate.isWaiting)
+                                                return pluginApi?.tr("panel.state_updating") ?? "Updating...";
                                             if (isSensor(model.domain))
-                                                return model.state + (model.unit ? " " + model.unit : "")
-                                            if (isLight(model.domain) && model.state === "on"
-                                                && model.brightness >= 0)
-                                                return "on · " + Math.round(model.brightness / 255 * 100) + "%"
-                                            return model.state
+                                                return model.state + (model.unit ? " " + model.unit : "");
+                                            if (isLight(model.domain) && model.state === "on" && model.brightness >= 0)
+                                                return pluginApi?.tr("panel.state_on_brightness", {
+                                                    percent: Math.round(model.brightness / 255 * 100)
+                                                }) ?? ("on · " + Math.round(model.brightness / 255 * 100) + "%");
+                                            return model.state;
                                         }
                                         color: Color.mOnSurfaceVariant
                                         pointSize: Style.fontSizeS
@@ -269,16 +276,17 @@ Item {
 
                                     RotationAnimation on rotation {
                                         running: entityDelegate.isWaiting
-                                        from: 0;
-                                        to: 360; duration: 800
+                                        from: 0
+                                        to: 360
+                                        duration: 800
                                         loops: Animation.Infinite
                                         onStopped: automationBtn.rotation = 0
                                     }
 
                                     onClicked: {
-                                        entityDelegate.isWaiting = true
-                                        const service = model.domain === "script" ? "turn_on" : "trigger"
-                                        root.main.callService(model.domain, service, model.entity_id)
+                                        entityDelegate.isWaiting = true;
+                                        const service = model.domain === "script" ? "turn_on" : "trigger";
+                                        root.main.callService(model.domain, service, model.entity_id);
                                     }
 
                                     // Scripts finish quickly, automations don't report state reliably —
@@ -294,24 +302,23 @@ Item {
                                 NIconButton {
                                     id: switchToggleBtn
                                     visible: isControllable(model.domain) && !isLight(model.domain)
-                                    icon: entityDelegate.isWaiting
-                                          ? "refresh"
-                                          : (model.state === "on" ? "toggle-right" : "toggle-left")
+                                    icon: entityDelegate.isWaiting ? "refresh" : (model.state === "on" ? "toggle-right" : "toggle-left")
                                     color: model.state === "on" ? Color.mTertiary : Color.mOutline
 
                                     rotation: entityDelegate.isWaiting ? rotation : 0
 
                                     RotationAnimation on rotation {
                                         running: entityDelegate.isWaiting
-                                        from: 0;
-                                        to: 360; duration: 800
+                                        from: 0
+                                        to: 360
+                                        duration: 800
                                         loops: Animation.Infinite
                                         onStopped: switchToggleBtn.rotation = 0
                                     }
 
                                     onClicked: {
-                                        entityDelegate.isWaiting = true
-                                        root.main.callService(model.domain, "toggle", model.entity_id)
+                                        entityDelegate.isWaiting = true;
+                                        root.main.callService(model.domain, "toggle", model.entity_id);
                                     }
 
                                     Timer {
@@ -325,24 +332,23 @@ Item {
                                 NIconButton {
                                     id: lightToggleBtn
                                     visible: isLight(model.domain)
-                                    icon: entityDelegate.isWaiting
-                                          ? "refresh"
-                                          : (model.state === "on" ? "toggle-right" : "toggle-left")
+                                    icon: entityDelegate.isWaiting ? "refresh" : (model.state === "on" ? "toggle-right" : "toggle-left")
                                     color: model.state === "on" ? Color.mTertiary : Color.mOutline
 
                                     rotation: entityDelegate.isWaiting ? rotation : 0
 
                                     RotationAnimation on rotation {
                                         running: entityDelegate.isWaiting
-                                        from: 0;
-                                        to: 360; duration: 800
+                                        from: 0
+                                        to: 360
+                                        duration: 800
                                         loops: Animation.Infinite
                                         onStopped: lightToggleBtn.rotation = 0
                                     }
 
                                     onClicked: {
-                                        entityDelegate.isWaiting = true
-                                        root.main.callService("light", "toggle", model.entity_id)
+                                        entityDelegate.isWaiting = true;
+                                        root.main.callService("light", "toggle", model.entity_id);
                                     }
 
                                     Timer {
@@ -374,7 +380,7 @@ Item {
 
                                     onPressedChanged: {
                                         if (!pressed) {
-                                            root.main.callLightService(model.entity_id, value, -1)
+                                            root.main.callLightService(model.entity_id, value, -1);
                                         }
                                     }
 
@@ -389,14 +395,7 @@ Item {
                                         border.width: 1
                                         z: 10
 
-                                        x: Math.min(
-                                            Math.max(0,
-                                                (brightnessSlider.value - brightnessSlider.from)
-                                                / (brightnessSlider.to - brightnessSlider.from)
-                                                * brightnessSlider.width - width / 2
-                                            ),
-                                            brightnessSlider.width - width
-                                        )
+                                        x: Math.min(Math.max(0, (brightnessSlider.value - brightnessSlider.from) / (brightnessSlider.to - brightnessSlider.from) * brightnessSlider.width - width / 2), brightnessSlider.width - width)
                                         y: -height - Style.marginS
 
                                         NText {
@@ -439,7 +438,7 @@ Item {
 
                                     onPressedChanged: {
                                         if (!pressed) {
-                                            root.main.callLightService(model.entity_id, -1, value)
+                                            root.main.callLightService(model.entity_id, -1, value);
                                         }
                                     }
 
@@ -454,14 +453,7 @@ Item {
                                         border.width: 1
                                         z: 10
 
-                                        x: Math.min(
-                                            Math.max(0,
-                                                (colorTempSlider.value - colorTempSlider.from)
-                                                / (colorTempSlider.to - colorTempSlider.from)
-                                                * colorTempSlider.width - width / 2
-                                            ),
-                                            colorTempSlider.width - width
-                                        )
+                                        x: Math.min(Math.max(0, (colorTempSlider.value - colorTempSlider.from) / (colorTempSlider.to - colorTempSlider.from) * colorTempSlider.width - width / 2), colorTempSlider.width - width)
                                         y: -height - Style.marginS
 
                                         NText {
@@ -487,7 +479,6 @@ Item {
                 }
             }
 
-
             BrowserView {
                 id: browserView
                 Layout.fillWidth: true
@@ -501,49 +492,45 @@ Item {
         }
     }
 
-
-
     function isControllable(domain) {
-        return ["light", "switch", "input_boolean",
-                "fan", "cover", "lock"].includes(domain)
+        return ["light", "switch", "input_boolean", "fan", "cover", "lock"].includes(domain);
     }
 
     function isSensor(domain) {
-        return ["sensor", "binary_sensor",
-            "weather", "number"].includes(domain)
+        return ["sensor", "binary_sensor", "weather", "number"].includes(domain);
     }
 
     function isAutomation(domain) {
-        return ["automation", "script"].includes(domain)
+        return ["automation", "script"].includes(domain);
     }
 
     function isLight(domain) {
-        return domain === "light"
+        return domain === "light";
     }
 
     function domainIcon(domain) {
         const icons = {
-            "light":         "bulb",
-            "switch":        "toggle-right",
+            "light": "bulb",
+            "switch": "toggle-right",
             "input_boolean": "toggle-right",
-            "sensor":        "chart-line",
+            "sensor": "chart-line",
             "binary_sensor": "activity",
-            "climate":       "temperature",
-            "cover":         "door",
-            "fan":           "wind",
-            "lock":          "lock",
-            "media_player":  "device-speaker",
-            "weather":       "cloud",
-            "automation":    "robot",
-            "script":        "player-play"
-        }
-        return icons[domain] ?? "smart-home"
+            "climate": "temperature",
+            "cover": "door",
+            "fan": "wind",
+            "lock": "lock",
+            "media_player": "device-speaker",
+            "weather": "cloud",
+            "automation": "robot",
+            "script": "player-play"
+        };
+        return icons[domain] ?? "smart-home";
     }
 
     function stateColor(domain, state) {
         if (isControllable(domain)) {
-            return state === "on" ? Color.mTertiary : Color.mOnSurfaceVariant
+            return state === "on" ? Color.mTertiary : Color.mOnSurfaceVariant;
         }
-        return Color.mTertiary
+        return Color.mTertiary;
     }
 }

@@ -24,6 +24,14 @@ NIconButton {
         return "Connected";
     }
 
+    readonly property string _statusLabel: {
+        if (root._status === "Disconnected")
+            return pluginApi?.tr("widget.status_disconnected") ?? "Disconnected";
+        if (root._status === "Connecting")
+            return pluginApi?.tr("widget.status_connecting") ?? "Connecting";
+        return pluginApi?.tr("widget.status_connected") ?? "Connected";
+    }
+
     icon: "smart-home"
     colorFg: {
         switch (root._status) {
@@ -46,7 +54,9 @@ NIconButton {
 
     onClicked: pluginApi.togglePanel(root.screen, this)
 
-    tooltipText: "Status: " + (root._status)
+    tooltipText: pluginApi?.tr("widget.tooltip", {
+        status: root._statusLabel
+    }) ?? ("Status: " + root._statusLabel)
 
     implicitHeight: Style.barHeight
 

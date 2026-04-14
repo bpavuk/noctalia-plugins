@@ -16,56 +16,56 @@ Item {
     clip: true
 
     function load() {
-        searchInput.text = ""
-        root._searchText = ""
-        _fetchAll()
+        searchInput.text = "";
+        root._searchText = "";
+        _fetchAll();
     }
 
     function _isPinned(entity_id) {
-        const pinned = pluginApi?.pluginSettings?.entities ?? []
-        return pinned.includes(entity_id)
+        const pinned = pluginApi?.pluginSettings?.entities ?? [];
+        return pinned.includes(entity_id);
     }
 
     function _togglePin(entity_id) {
-        let pinned = pluginApi?.pluginSettings?.entities ?? []
-        pinned = [...pinned]
-        const idx = pinned.indexOf(entity_id)
+        let pinned = pluginApi?.pluginSettings?.entities ?? [];
+        pinned = [...pinned];
+        const idx = pinned.indexOf(entity_id);
         if (idx >= 0) {
-            pinned.splice(idx, 1)
+            pinned.splice(idx, 1);
         } else {
-            pinned.push(entity_id)
+            pinned.push(entity_id);
         }
-        pluginApi.pluginSettings.entities = pinned
-        pluginApi.saveSettings()
-        root.main.refreshEntities()
-        root._pinVersion++
+        pluginApi.pluginSettings.entities = pinned;
+        pluginApi.saveSettings();
+        root.main.refreshEntities();
+        root._pinVersion++;
     }
 
-    ListModel { id: _filteredModel }
+    ListModel {
+        id: _filteredModel
+    }
 
     function _refilter() {
-        const q = root._searchText.toLowerCase()
-        const source = root._allEntities
+        const q = root._searchText.toLowerCase();
+        const source = root._allEntities;
 
-        _filteredModel.clear()
+        _filteredModel.clear();
 
         for (const e of source) {
-            if (!q ||
-                e.entity_id.toLowerCase().includes(q) ||
-                e.friendly_name.toLowerCase().includes(q)) {
-                _filteredModel.append(e)
+            if (!q || e.entity_id.toLowerCase().includes(q) || e.friendly_name.toLowerCase().includes(q)) {
+                _filteredModel.append(e);
             }
         }
     }
 
     // Call it when entities load
     function _fetchAll() {
-        root._loading = true
-        root.main.getAllStates(function(results) {
-            root._allEntities = results
-            root._refilter()
-            root._loading = false
-        })
+        root._loading = true;
+        root.main.getAllStates(function (results) {
+            root._allEntities = results;
+            root._refilter();
+            root._loading = false;
+        });
     }
 
     ColumnLayout {
@@ -75,11 +75,11 @@ Item {
         NTextInput {
             id: searchInput
             Layout.fillWidth: true
-            label: "Search"
-            placeholderText: "Filter by name or entity ID..."
+            label: pluginApi?.tr("browser.search_label") ?? "Search"
+            placeholderText: pluginApi?.tr("browser.search_placeholder") ?? "Filter by name or entity ID..."
             onTextChanged: {
-                root._searchText = text
-                root._refilter()
+                root._searchText = text;
+                root._refilter();
             }
         }
 
@@ -101,14 +101,15 @@ Item {
                     RotationAnimation on rotation {
                         running: root._loading
                         loops: Animation.Infinite
-                        from: 0; to: 360
+                        from: 0
+                        to: 360
                         duration: 1000
                     }
                 }
 
                 NText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: "Loading entities..."
+                    text: pluginApi?.tr("browser.loading") ?? "Loading entities..."
                     color: Color.mOnSurfaceVariant
                     pointSize: Style.fontSizeM
                 }
@@ -137,12 +138,15 @@ Item {
                     radius: Style.radiusM
 
                     readonly property bool pinned: {
-                        root._pinVersion
-                        return root._isPinned(model.entity_id)
+                        root._pinVersion;
+                        return root._isPinned(model.entity_id);
                     }
 
                     RowLayout {
-                        anchors { fill: parent; margins: Style.marginM }
+                        anchors {
+                            fill: parent
+                            margins: Style.marginM
+                        }
                         spacing: Style.marginM
 
                         ColumnLayout {
