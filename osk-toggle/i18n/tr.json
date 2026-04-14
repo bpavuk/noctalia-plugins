@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Hangi ekran klavyesini kontrol edeceğini seçin: auto, squeekboard veya wvkbd (auto başlangıçta otomatik algılar)"
+      "desc": "Hangi ekran klavyesini kontrol edeceğini seçin: auto, squeekboard veya wvkbd (auto başlangıçta otomatik algılar)",
+      "option": {
+        "auto": "Otomatik",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Kullanılamadığında gizle",

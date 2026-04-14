@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Бекенд",
-      "desc": "Яку екранну клавіатуру використовувати: auto, squeekboard або wvkbd (auto визначає при запуску)"
+      "desc": "Яку екранну клавіатуру використовувати: auto, squeekboard або wvkbd (auto визначає при запуску)",
+      "option": {
+        "auto": "Авто",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Приховувати, коли недоступний",

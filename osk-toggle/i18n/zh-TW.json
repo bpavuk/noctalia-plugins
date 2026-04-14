@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "後端",
-      "desc": "要控制哪個螢幕鍵盤：auto、squeekboard 或 wvkbd（auto 在啟動時自動偵測）"
+      "desc": "要控制哪個螢幕鍵盤：auto、squeekboard 或 wvkbd（auto 在啟動時自動偵測）",
+      "option": {
+        "auto": "自動",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "不可用時隱藏",

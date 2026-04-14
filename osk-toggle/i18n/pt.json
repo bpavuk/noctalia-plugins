@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Qual teclado na tela controlar: auto, squeekboard ou wvkbd (auto detecta na inicialização)"
+      "desc": "Qual teclado na tela controlar: auto, squeekboard ou wvkbd (auto detecta na inicialização)",
+      "option": {
+        "auto": "Automático",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Ocultar quando indisponível",

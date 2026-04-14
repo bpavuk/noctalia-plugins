@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Kîjan klavyeya ekranê kontrol bike: auto, squeekboard, an jî wvkbd (auto di destpêkê de xweser tespît dike)"
+      "desc": "Kîjan klavyeya ekranê kontrol bike: auto, squeekboard, an jî wvkbd (auto di destpêkê de xweser tespît dike)",
+      "option": {
+        "auto": "Xweser",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Veşêre dema ku berdest nebe",

@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "バックエンド",
-      "desc": "操作するスクリーンキーボード：auto、squeekboard、または wvkbd（auto は起動時に自動検出）"
+      "desc": "操作するスクリーンキーボード：auto、squeekboard、または wvkbd（auto は起動時に自動検出）",
+      "option": {
+        "auto": "自動",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "利用不可時に非表示",

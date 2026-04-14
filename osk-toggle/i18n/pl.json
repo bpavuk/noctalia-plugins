@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Którą klawiaturę ekranową obsługiwać: auto, squeekboard lub wvkbd (auto wykrywa przy uruchomieniu)"
+      "desc": "Którą klawiaturę ekranową obsługiwać: auto, squeekboard lub wvkbd (auto wykrywa przy uruchomieniu)",
+      "option": {
+        "auto": "Automatyczny",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Ukryj gdy niedostępny",

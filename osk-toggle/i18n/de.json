@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Welche Bildschirmtastatur gesteuert werden soll: auto, squeekboard oder wvkbd (auto erkennt beim Start automatisch)"
+      "desc": "Welche Bildschirmtastatur gesteuert werden soll: auto, squeekboard oder wvkbd (auto erkennt beim Start automatisch)",
+      "option": {
+        "auto": "Automatisch",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Ausblenden wenn nicht verfügbar",

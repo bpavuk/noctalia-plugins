@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Quel clavier virtuel contrôler : auto, squeekboard ou wvkbd (auto détecte au démarrage)"
+      "desc": "Quel clavier virtuel contrôler : auto, squeekboard ou wvkbd (auto détecte au démarrage)",
+      "option": {
+        "auto": "Automatique",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Masquer si indisponible",

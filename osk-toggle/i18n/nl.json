@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Welk schermtoetsenbord aansturen: auto, squeekboard of wvkbd (auto detecteert bij opstarten)"
+      "desc": "Welk schermtoetsenbord aansturen: auto, squeekboard of wvkbd (auto detecteert bij opstarten)",
+      "option": {
+        "auto": "Automatisch",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Verbergen als niet beschikbaar",

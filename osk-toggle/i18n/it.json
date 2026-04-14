@@ -13,7 +13,12 @@
   "settings": {
     "backend": {
       "label": "Backend",
-      "desc": "Quale tastiera su schermo controllare: auto, squeekboard o wvkbd (auto rileva all'avvio)"
+      "desc": "Quale tastiera su schermo controllare: auto, squeekboard o wvkbd (auto rileva all'avvio)",
+      "option": {
+        "auto": "Automatico",
+        "squeekboard": "Squeekboard",
+        "wvkbd": "wvkbd"
+      }
     },
     "hideWhenUnavailable": {
       "label": "Nascondi quando non disponibile",
